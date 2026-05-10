@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Raja Seafood Cibitung</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins;
+}
+
+body{
+  background:#fff7ef;
+}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 8%;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  z-index:1000;
+}
+
+.logo{
+  color:#ff7a00;
+  font-weight:700;
+}
+
+.menu{
+  font-size:30px;
+  cursor:pointer;
+}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  right:-320px;
+  top:0;
+  width:320px;
+  height:100%;
+  background:white;
+  padding:25px;
+  transition:0.4s;
+  box-shadow:-5px 0 20px rgba(0,0,0,0.1);
+  z-index:9999;
+}
+
+.sidebar.active{
+  right:0;
+}
+
+.close{
+  font-size:28px;
+  text-align:right;
+  cursor:pointer;
+}
+
+.sidebar a{
+  display:block;
+  margin:18px 0;
+  text-decoration:none;
+  color:#333;
+  font-weight:500;
+}
+
+/* HERO */
+header{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(135deg,#fff,#ffe6c8);
+  position:relative;
+  overflow:hidden;
+}
+
+.bubble{
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:rgba(255,122,0,0.2);
+  border-radius:50%;
+  animation:float 6s infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-120px);}
+  100%{transform:translateY(0);}
+}
+
+.hero h1{
+  font-size:52px;
+  color:#ff7a00;
+}
+
+.hero p{
+  color:#555;
+  margin-top:10px;
+}
+
+/* SECTION */
+section{
+  padding:90px 8%;
+}
+
+.title{
+  text-align:center;
+  font-size:38px;
+  color:#ff7a00;
+  margin-bottom:40px;
+}
+
+/* MENU */
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 10px 20px rgba(0,0,0,0.05);
+}
+
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.content{
+  padding:15px;
+}
+
+.price{
+  color:green;
+  font-weight:700;
+}
+
+/* DELETE */
+.delete{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:50%;
+  background:red;
+  color:white;
+  display:none;
+  cursor:pointer;
+}
+
+.admin-active .delete{
+  display:block;
+}
+
+/* ADMIN */
+.admin-panel{
+  display:none;
+  margin-top:40px;
+  background:white;
+  padding:20px;
+  border-radius:20px;
+}
+
+.admin-active .admin-panel{
+  display:block;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  background:#f3f3f3;
+  border:none;
+  border-radius:10px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#ff7a00;
+  border:none;
+  color:white;
+  border-radius:10px;
+}
+
+/* LOGIN */
+.login{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:300px;
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  display:none;
+  z-index:99999;
+}
+
+.login input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  background:#eee;
+  border:none;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+}
+
+.modal img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Raja Seafood Cibitung</div>
+  <div class="menu" onclick="toggleSidebar()">☰</div>
+</nav>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+<div class="close" onclick="toggleSidebar()">✕</div>
+
+<a href="https://maps.app.goo.gl/FcNNmQutshHy8m5b8?g_st=ac">📍 Lokasi</a>
+<a href="https://wa.me/6281381055858">📞 WhatsApp</a>
+<a href="#" onclick="openLogin()">🔐 Admin</a>
+
+</div>
+
+<!-- HERO -->
+<header>
+
+<div class="bubble" style="top:20%;left:10%"></div>
+<div class="bubble" style="top:50%;left:80%"></div>
+<div class="bubble" style="top:70%;left:30%"></div>
+
+<div class="hero">
+  <h1>Raja Seafood Cibitung 🍤</h1>
+  <p>Fresh Seafood • Premium Taste • Best Price</p>
+</div>
+
+</header>
+
+<!-- MENU -->
+<section>
+
+<div class="title">Menu Kami</div>
+
+<div class="menu-grid" id="menuGrid"></div>
+
+<!-- ADMIN -->
+<div class="admin-panel">
+
+<h3>Admin Dashboard</h3>
+
+<input id="name" placeholder="Nama Menu">
+<textarea id="desc" placeholder="Deskripsi"></textarea>
+<input id="price" placeholder="Harga">
+<input type="file" id="img">
+
+<button onclick="addMenu()">Tambah Menu</button>
+
+</div>
+
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal()">
+<img id="modalImg">
+</div>
+
+<!-- LOGIN -->
+<div class="login" id="loginBox">
+
+<input id="gmail" placeholder="Gmail">
+<input id="pass" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<script>
+
+/* SIDEBAR */
+function toggleSidebar(){
+document.getElementById("sidebar").classList.toggle("active");
+}
+
+/* MODAL IMAGE */
+function openImg(src){
+document.getElementById("modal").style.display="flex";
+document.getElementById("modalImg").src=src;
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+/* LOGIN */
+function openLogin(){
+document.getElementById("loginBox").style.display="block";
+}
+
+function login(){
+
+let g=document.getElementById("gmail").value;
+let p=document.getElementById("pass").value;
+
+if(g==="leandrain2501@gmail.com" && p==="SeaFo0D6792"){
+
+document.body.classList.add("admin-active");
+document.getElementById("loginBox").style.display="none";
+
+document.querySelectorAll(".card").forEach(enableAdmin);
+
+alert("Admin aktif!");
+
+}else{
+alert("Salah login!");
+}
+
+}
+
+/* ORDER WA */
+function order(menu){
+let text=`Halo, saya mau pesan:\n\n🍽️ Menu: ${menu}`;
+window.open("https://wa.me/6281381055858?text="+encodeURIComponent(text));
+}
+
+/* CARD */
+function createCard(img,name,desc,price){
+
+let div=document.createElement("div");
+div.className="card";
+
+div.innerHTML=`
+<button class="delete" onclick="this.parentElement.remove()">✕</button>
+
+<img src="${img}" onclick="openImg('${img}')">
+
+<div class="content">
+<h3>${name}</h3>
+<p>${desc}</p>
+<div class="price">${price}</div>
+<button onclick="order('${name}')">Pesan</button>
+</div>
+`;
+
+document.getElementById("menuGrid").appendChild(div);
+
+}
+
+/* DEFAULT MENU */
+createCard(
+"https://images.unsplash.com/photo-1604908176997-4318dd2c88ae",
+"Kepiting Saos Padang",
+"Pedas manis premium",
+"Rp95.000"
+);
+
+</script>
+
+</body>
+</html>
